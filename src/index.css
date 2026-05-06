@@ -1,0 +1,133 @@
+@import "@fontsource/oswald/300.css";
+@import "@fontsource/oswald/400.css";
+@import "@fontsource/oswald/500.css";
+@import "@fontsource/oswald/600.css";
+@import "@fontsource/oswald/700.css";
+@import "@fontsource/inter/300.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@300;400;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* Bento Grid Sage/Moss Palette - Refined for Contrast */
+  --bg:     80 20% 94%;  /* #f1f3ee - Lighter background */
+  --ink:    60 3% 11%;   /* #1D1D1B */
+  --sage:   82 22% 61%;  /* #A3B18A */
+  --moss:   152 21% 18%; /* #24362d - Darker Moss for better text legibility */
+  --clay:   45 15% 82%;  /* #d1cdc3 - Slightly darker clay for borders */
+  --accent: 118 19% 43%; /* #588157 */
+
+  /* Semantic tokens */
+  --background:        var(--bg);
+  --foreground:        var(--ink);
+  --card:              0 0% 100%;
+  --card-foreground:   var(--ink);
+  --popover:           0 0% 100%;
+  --popover-foreground:var(--ink);
+  --primary:           var(--moss);
+  --primary-foreground: var(--bg);
+  --secondary:         var(--sage);
+  --secondary-foreground: var(--moss);
+  --muted:             45 15% 90%;
+  --muted-foreground:  60 3% 40%;
+  --accent:            var(--accent);
+  --accent-foreground: var(--bg);
+  --border:            45 15% 82%;
+  --input:             45 15% 82%;
+  --ring:              var(--moss);
+  --radius:            0.5rem;
+
+  /* Typography Pairing: Oswald for Display, Inter for Body */
+  --font-display: "Oswald", sans-serif;
+  --font-body:    "Inter", sans-serif;
+
+  --gutter: clamp(20px, 5vw, 64px);
+  --max:    1280px; 
+}
+
+html, body, #root { background: hsl(var(--background)); color: hsl(var(--foreground)); }
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+.font-display { font-family: var(--font-display); }
+.font-body { font-family: var(--font-body); }
+
+@theme {
+  --color-background:       hsl(var(--background));
+  --color-foreground:       hsl(var(--foreground));
+  --color-card:             hsl(var(--card));
+  --color-card-foreground:  hsl(var(--card-foreground));
+  --color-popover:          hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary:          hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary:        hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted:            hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent:           hsl(var(--accent));
+  --color-accent-foreground:hsl(var(--accent-foreground));
+  --color-destructive:      hsl(var(--destructive));
+  --color-border:           hsl(var(--border));
+  --color-input:            hsl(var(--input));
+  --color-ring:             hsl(var(--ring));
+  --color-ink:              hsl(var(--ink));
+  --color-moss:             hsl(var(--moss));
+  --color-sage:             hsl(var(--sage));
+  --color-clay:             hsl(var(--clay));
+  --color-bg:               hsl(var(--bg));
+
+  --font-display: var(--font-display);
+  --font-body:    var(--font-body);
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-marquee-rev: marquee-rev 45s linear infinite;
+}
+
+@keyframes marquee      { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+@keyframes marquee-rev  { from { transform: translateX(-50%) } to { transform: translateX(0) } }
+
+@layer components {
+  .bento-card {
+    background: white;
+    border: 1px solid hsl(var(--border));
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .bento-card:hover {
+    border-color: hsl(var(--moss) / 0.3);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+
+  .pill {
+    background: hsl(var(--moss));
+    color: hsl(var(--bg));
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .topo-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='400' height='400' viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 150 C 40 110, 80 190, 120 150 S 200 70, 240 150 S 320 230, 360 150 S 400 110, 400 150 L 400 400 L 0 400 Z' fill='%23588157' fill-opacity='0.06'/%3E%3Cpath d='M0 250 C 60 210, 120 290, 180 250 S 260 170, 320 250 S 380 330, 400 290 L 400 400 L 0 400 Z' fill='%23344e41' fill-opacity='0.07'/%3E%3Cpath d='M0 320 Q 50 280, 100 320 T 200 320 T 300 320 T 400 320 L 400 400 L 0 400 Z' fill='%2324362d' fill-opacity='0.1'/%3E%3Cpath d='M0 100 L 50 120 L 100 80 L 150 110 L 200 60 L 250 90 L 300 40 L 350 70 L 400 20' stroke='%23588157' stroke-width='1' fill='none' opacity='0.1'/%3E%3Cpath d='M0 180 L 80 200 L 160 170 L 240 210 L 320 180 L 400 220' stroke='%23344e41' stroke-width='1' fill='none' opacity='0.1'/%3E%3C/svg%3E");
+    background-attachment: fixed;
+  }
+
+  .gradient-fade-t { background: linear-gradient(to top, transparent 0%, hsl(var(--background)) 100%); }
+  .gradient-fade-b { background: linear-gradient(to bottom, transparent 0%, hsl(var(--background)) 100%); }
+}
+

@@ -1,0 +1,203 @@
+export interface Destination {
+  id: string;
+  name: string;
+  country: string;
+  height: string;
+  status: string;
+  temp: string;
+  desc: string;
+  img: string;
+}
+
+export const DESTINATIONS: Record<string, Destination> = {
+  "fuji": {
+    id: "fuji",
+    name: "Monte Fuji",
+    country: "Giappone",
+    height: "3.776m",
+    status: "Attivo",
+    temp: "-12°C",
+    desc: "Il simbolo del Giappone, un vulcano solitario che domina l'horizonte con la sua vetta innevata perfetta.",
+    img: "https://images.unsplash.com/photo-1578271887552-5ac3a72752bc?auto=format&fit=crop&q=80&w=1200"
+  },
+  "etna": {
+    id: "etna",
+    name: "Etna",
+    country: "Italia",
+    height: "3.357m",
+    status: "Attivo",
+    temp: "-5°C",
+    desc: "Il vulcano più alto e attivo d'Europa, un gigante siciliano che regala spettacoli eruttivi costanti.",
+    img: "https://images.unsplash.com/photo-1541414779316-956a5084c0d4?auto=format&fit=crop&q=80&w=1200"
+  },
+  "vesuvio": {
+    id: "vesuvio",
+    name: "Vesuvio",
+    country: "Italia",
+    height: "1.281m",
+    status: "Dormiente",
+    temp: "15°C",
+    desc: "Uno dei vulcani più famosi e pericolosi al mondo, domina il Golfo di Napoli con la sua sagoma inconfondibile.",
+    img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&q=80&w=1200"
+  },
+  "bromo": {
+    id: "bromo",
+    name: "Monte Bromo",
+    country: "Indonesia",
+    height: "2.329m",
+    status: "Attivo",
+    temp: "10°C",
+    desc: "Situato in un paesaggio lunare all'interno del Parco Nazionale Bromo Tengger Semeru.",
+    img: "https://images.unsplash.com/photo-1627440439611-30d8906354cd?auto=format&fit=crop&q=80&w=1200"
+  },
+  "katla": {
+    id: "katla",
+    name: "Katla",
+    country: "Islanda",
+    height: "1.512m",
+    status: "Attivo",
+    temp: "-8°C",
+    desc: "Nascosto sotto il ghiacciaio Mýrdalsjökull, il Katla è uno dei vulcani più potenti e temuti dell'Islanda.",
+    img: "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&q=80&w=1200"
+  },
+  "arenal": {
+    id: "arenal",
+    name: "Arenal",
+    country: "Costa Rica",
+    height: "1.633m",
+    status: "Dormiente",
+    temp: "24°C",
+    desc: "Un vulcano dal cono perfetto immerso in una foresta pluviale lussureggiante e sorgenti termali.",
+    img: "https://images.unsplash.com/photo-1616422896585-78e217d12f4b?auto=format&fit=crop&q=80&w=1200"
+  },
+  "stromboli": {
+    id: "stromboli",
+    name: "Stromboli",
+    country: "Italia",
+    height: "926m",
+    status: "Eruzioni Medie",
+    temp: "18°C",
+    desc: "Il faro del Mediterraneo, noto per le sue continue e scenografiche eruzioni esplosive.",
+    img: "https://images.unsplash.com/photo-1541414779316-956a5084c0d4?auto=format&fit=crop&q=80&w=1200"
+  },
+  "kilimanjaro": {
+    id: "kilimanjaro",
+    name: "Kilimanjaro",
+    country: "Tanzania",
+    height: "5.895m",
+    status: "Quiescente",
+    temp: "-10°C",
+    desc: "La vetta più alta dell'Africa, un vulcano spento coronato da ghiacciai perenni sopra la savana.",
+    img: "https://images.unsplash.com/photo-1541414779316-956a5084c0d4?auto=format&fit=crop&q=80&w=1200"
+  },
+  "eyjafjallajokull": {
+    id: "eyjafjallajokull",
+    name: "Eyjafjallajökull",
+    country: "Islanda",
+    height: "1.651m",
+    status: "Attivo",
+    temp: "-6°C",
+    desc: "Famoso per l'eruzione del 2010 che bloccò i voli europei, è un simbolo della forza della natura islandese.",
+    img: "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&q=80&w=1200"
+  },
+  "mauna-loa": {
+    id: "mauna-loa",
+    name: "Mauna Loa",
+    country: "USA",
+    height: "4.169m",
+    status: "Attivo",
+    temp: "5°C",
+    desc: "Il vulcano più grande della Terra per volume, un gigante a scudo che domina l'isola delle Hawaii.",
+    img: "https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&q=80&w=1200"
+  },
+  "askja": {
+    id: "askja",
+    name: "Askja",
+    country: "Islanda",
+    height: "1.510m",
+    status: "Attivo",
+    temp: "-4°C",
+    desc: "Una vasta caldera negli altipiani islandesi, nota per il suo lago blu elettrico all'interno del cratere.",
+    img: "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&q=80&w=1200"
+  },
+  "campi-flegrei": {
+    id: "campi-flegrei",
+    name: "Campi Flegrei",
+    country: "Italia",
+    height: "458m",
+    status: "Attivo",
+    temp: "16°C",
+    desc: "Un supervulcano costituito da una vasta area vulcanica situata a ovest di Napoli.",
+    img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&q=80&w=1200"
+  },
+  "epomeo": {
+    id: "epomeo",
+    name: "Monte Epomeo",
+    country: "Italia",
+    height: "787m",
+    status: "Inattivo",
+    temp: "18°C",
+    desc: "La vetta dell'isola d'Ischia, nata da un sollevamento sottomarino magmatico secoli fa.",
+    img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&q=80&w=1200"
+  },
+  "vulture": {
+    id: "vulture",
+    name: "Monte Vulture",
+    country: "Italia",
+    height: "1.326m",
+    status: "Spento",
+    temp: "12°C",
+    desc: "Antico vulcano spento della Basilicata, noto per i suoi laghi vulcanici gemelli a Monticchio.",
+    img: "https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&q=80&w=1200"
+  },
+  "amiata": {
+    id: "amiata",
+    name: "Monte Amiata",
+    country: "Italia",
+    height: "1.738m",
+    status: "Dormiente",
+    temp: "10°C",
+    desc: "Un imponente rilievo vulcanico in Toscana, antico e avvolto da folte foreste di faggi e castagni.",
+    img: "https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&q=80&w=1200"
+  },
+  "lipari": {
+    id: "lipari",
+    name: "Lipari",
+    country: "Italia",
+    height: "602m",
+    status: "Attivo",
+    temp: "20°C",
+    desc: "L'isola più grande delle Eolie, caratterizzata da bianche cave di pomice e colate di ossidiana.",
+    img: "https://images.unsplash.com/photo-1541414779316-956a5084c0d4?auto=format&fit=crop&q=80&w=1200"
+  },
+  "mauna-kea": {
+    id: "mauna-kea",
+    name: "Mauna Kea",
+    country: "USA",
+    height: "4.207m",
+    status: "Dormiente",
+    temp: "-2°C",
+    desc: "Un antico vulcano hawaiano che ospita alcuni dei telescopi più potenti al mondo sulla sua cima.",
+    img: "https://images.unsplash.com/photo-1541414779316-956a5084c0d4?auto=format&fit=crop&q=80&w=1200"
+  },
+  "hekla": {
+    id: "hekla",
+    name: "Hekla",
+    country: "Islanda",
+    height: "1.491m",
+    status: "Attivo",
+    temp: "-5°C",
+    desc: "Conosciuta nel Medioevo come la porta dell'Inferno, è uno dei vulcani più attivi dell'Islanda.",
+    img: "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&q=80&w=1200"
+  },
+  "fuego": {
+    id: "fuego",
+    name: "Fuego",
+    country: "Guatemala",
+    height: "3.763m",
+    status: "Eruzioni Costanti",
+    temp: "15°C",
+    desc: "Famoso per le sue spettacolari e frequenti eruzioni che illuminano il cielo del centro America.",
+    img: "https://images.unsplash.com/photo-1541527712391-7667ff46ca79?auto=format&fit=crop&q=80&w=1200"
+  }
+};

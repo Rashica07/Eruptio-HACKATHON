@@ -1,0 +1,106 @@
+import { motion } from "motion/react";
+import { Truck, Package, Globe, Building2, Sparkles, ArrowUpRight } from "lucide-react";
+import { BlurText } from "./BlurText";
+import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
+import { Button } from "./ui/button";
+
+const SERVICES = [
+  { 
+    icon: Globe, 
+    title: "Monte Fuji", 
+    body: "Collegamenti diretti verso le zone vulcaniche più remote del Giappone. Un classico intramontabile.",
+    className: "md:row-span-2 md:col-span-1 min-h-[480px] bg-moss text-bg border-none",
+    href: "/destinazioni/fuji"
+  },
+  { 
+    icon: Sparkles, 
+    title: "Etna", 
+    body: "Cabine di lusso per osservare le colate laviche siciliane in totale sicurezza.",
+    className: "md:col-span-1 min-h-[228px] bg-sage text-moss border-none",
+    href: "/destinazioni/etna"
+  },
+  { 
+    icon: Building2, 
+    title: "Monte Bromo", 
+    body: "Vivi l'alba sopra un mare di sabbia vulcanica in Indonesia.",
+    className: "md:col-span-1 min-h-[228px] bg-white border-clay",
+    href: "/destinazioni/bromo"
+  },
+  { 
+    icon: Package, 
+    title: "Katla Islanda", 
+    body: "Esplora i vulcani islandesi tra ghiaccio e fuoco. Disponibile dall'Autunno 2026.",
+    className: "md:col-span-2 min-h-[228px] bg-[#f8faf7] text-moss border-clay",
+    href: "/destinazioni/katla"
+  },
+  { 
+    icon: Truck, 
+    title: "Fuego", 
+    body: "Il fuoco perenne del Guatemala. Un'esperienza di pura energia geologica.",
+    className: "md:col-span-1 min-h-[228px] bg-[#0c0c0b] text-white border-none",
+    href: "/destinazioni/fuego"
+  },
+  { 
+    icon: Globe, 
+    title: "Vesuvio", 
+    body: "La storia che respira. Esplora il gigante silente sopra Napoli.",
+    className: "md:col-span-1 min-h-[228px] bg-sage text-moss border-none",
+    href: "/destinazioni/vesuvio"
+  },
+  { 
+    icon: Sparkles, 
+    title: "Kilimanjaro", 
+    body: "Oltre le nuvole. Il tetto dell'Africa ti aspetta per un'ascesa leggendaria.",
+    className: "md:col-span-2 min-h-[228px] bg-white border-clay text-moss",
+    href: "/destinazioni/kilimanjaro"
+  },
+];
+
+export function ServicesBento() {
+  return (
+    <section id="servizi" className="relative py-28 md:py-48 bg-background topo-pattern">
+      <div className="max-w-[var(--max)] mx-auto px-[var(--gutter)] flex flex-col items-center mb-20 text-center">
+        <span className="pill text-[10px] mb-6">I Nostri Servizi</span>
+        <BlurText 
+          text="Tutto ciò che arde. Sotto un unico cielo."
+          className="font-display text-4xl md:text-7xl leading-[0.9] tracking-tight max-w-[15ch] text-moss uppercase"
+        />
+      </div>
+
+      <div className="max-w-[var(--max)] mx-auto px-[var(--gutter)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {SERVICES.map((service, idx) => (
+          <motion.div
+            key={idx}
+            className={cn(
+              "rounded-lg p-10 relative overflow-hidden group border flex flex-col",
+              service.className
+            )}
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+          >
+            <div className={cn(
+              "rounded-full w-14 h-14 flex items-center justify-center mb-8 border border-current opacity-70",
+            )}>
+              <service.icon className="size-6" />
+            </div>
+            <h3 className="font-display italic text-3xl md:text-5xl leading-[0.9] tracking-tight mb-4 max-w-[10ch] uppercase">
+              {service.title}
+            </h3>
+            <p className="font-body text-sm md:text-base opacity-70 max-w-[30ch] leading-relaxed mb-8">
+              {service.body}
+            </p>
+            
+            <Button asChild variant="link" className={cn(
+              "p-0 h-auto font-bold tracking-widest text-[10px] uppercase gap-2 items-center mt-auto justify-start",
+              (service.className.includes("bg-moss") || service.className.includes("bg-stone-950") || service.className.includes("bg-zinc-950")) ? "text-white" : "text-moss"
+            )}>
+              <Link to={service.href}>SCOPRI DI PIÙ <ArrowUpRight size={14} /></Link>
+            </Button>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+}
