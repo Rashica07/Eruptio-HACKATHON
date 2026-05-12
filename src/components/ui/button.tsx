@@ -3,30 +3,31 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-semibold ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-primary text-primary-foreground rounded-full px-8 py-4 text-base font-medium tracking-tight hover:bg-primary/90 transition-all",
-        heroGlass: "liquid-glass-strong text-foreground rounded-full px-8 py-4 text-base font-normal tracking-tight hover:bg-white/10 transition-all",
-        heroSolid: "bg-foreground text-background rounded-full px-8 py-4 text-base font-medium tracking-tight hover:bg-foreground/90 transition-all",
+        default:    "bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20",
+        destructive:"bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline:    "border border-clay bg-transparent text-ink hover:bg-clay/30 hover:border-moss",
+        secondary:  "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost:      "hover:bg-clay/30 text-ink",
+        link:       "text-primary underline-offset-4 hover:underline",
+        hero:       "bg-moss text-bg px-8 py-4 text-sm font-bold tracking-wide hover:bg-moss/90 shadow-xl shadow-moss/25 hover:shadow-moss/40 hover:scale-[1.02] transition-all",
+        heroGlass:  "border-2 border-moss/40 text-ink bg-white/5 backdrop-blur-sm px-8 py-4 text-sm font-bold tracking-wide hover:bg-moss/10 hover:border-moss/70 transition-all",
+        heroSolid:  "bg-ink text-bg px-8 py-4 text-sm font-bold tracking-wide hover:bg-ink/90 transition-all",
+        gold:       "bg-gold text-bg px-8 py-4 text-sm font-bold tracking-wide hover:bg-gold/90 shadow-xl shadow-gold/20",
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
+        default: "h-11 px-6 py-2",
+        sm:      "h-9 px-4 py-1.5 text-xs",
+        lg:      "h-14 px-10 py-3 text-base",
+        icon:    "h-10 w-10",
       },
     },
     defaultVariants: {
       variant: "default",
-      size: "default",
+      size:    "default",
     },
   }
 );
