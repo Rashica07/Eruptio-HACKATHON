@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "Destinazioni", href: "/destinazioni" },
   { label: "Servizi", href: "/#servizi" },
+  { label: "Chi Siamo", href: "/chi-siamo" },
   { label: "FAQ", href: "/#faq" },
 ];
 
@@ -16,15 +17,11 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { pathname, hash } = useLocation();
 
-  // Simple effective scroll to hash for react-router
   useEffect(() => {
-    // If no hash, force top
     if (!hash) {
       window.scrollTo(0, 0);
       return;
     }
-
-    // Handle hash scrolling
     const element = document.getElementById(hash.replace("#", ""));
     if (element) {
       const timer = setTimeout(() => {
@@ -41,13 +38,13 @@ export function Navbar() {
           <span className="font-display italic text-2xl tracking-tighter font-bold text-moss">ERUPTIO.</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-2">
+        <nav className="hidden md:flex items-center gap-1">
           {NAV_ITEMS.map((item) => (
-            <Link 
-              key={item.label} 
+            <Link
+              key={item.label}
               to={item.href}
               className={cn(
-                "px-5 py-2 text-[11px] uppercase tracking-widest font-bold font-body transition-all duration-300 rounded-sm",
+                "px-4 py-2 text-[11px] uppercase tracking-widest font-bold font-body transition-all duration-300 rounded-sm",
                 pathname === item.href ? "text-moss bg-moss/5" : "text-moss/60 hover:text-moss hover:bg-moss/5"
               )}
             >
@@ -60,9 +57,9 @@ export function Navbar() {
           <Button asChild variant="hero" className="hidden md:flex bg-moss text-bg rounded-none px-8 font-bold tracking-widest text-[10px] h-10 border-none shadow-none">
             <Link to="/prenota">PRENOTA ORA</Link>
           </Button>
-          
-          <button 
-            className="md:hidden p-2 text-moss" 
+
+          <button
+            className="md:hidden p-2 text-moss"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -70,10 +67,9 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
@@ -81,8 +77,8 @@ export function Navbar() {
           >
             <div className="p-8 flex flex-col gap-2">
               {NAV_ITEMS.map((item) => (
-                <Link 
-                  key={item.label} 
+                <Link
+                  key={item.label}
                   to={item.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className="text-2xl font-display uppercase tracking-widest text-moss font-bold p-4 hover:bg-moss/5 transition-colors"
@@ -91,7 +87,7 @@ export function Navbar() {
                 </Link>
               ))}
               <Button asChild className="w-full bg-moss text-white rounded-none py-10 text-lg font-bold tracking-widest mt-6">
-                 <Link to="/prenota" onClick={() => setMobileMenuOpen(false)}>PRENOTA ORA</Link>
+                <Link to="/prenota" onClick={() => setMobileMenuOpen(false)}>PRENOTA ORA</Link>
               </Button>
             </div>
           </motion.div>

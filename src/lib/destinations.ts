@@ -7,6 +7,9 @@ export interface Destination {
   temp: string;
   desc: string;
   img: string;
+  price: number;
+  nights: number;
+  featured?: boolean;
 }
 
 export const DESTINATIONS: Record<string, Destination> = {
@@ -17,8 +20,11 @@ export const DESTINATIONS: Record<string, Destination> = {
     height: "3.776m",
     status: "Attivo",
     temp: "-12°C",
-    desc: "Il simbolo del Giappone, un vulcano solitario che domina l'horizonte con la sua vetta innevata perfetta.",
-    img: "https://images.unsplash.com/photo-1578271887552-5ac3a72752bc?auto=format&fit=crop&q=80&w=1200"
+    desc: "Il simbolo del Giappone, un vulcano solitario che domina l'horizonte con la sua vetta innevata perfetta. Esperienza inclusa: 7 notti a Tokyo, escursione al Lago Kawaguchiko e ascesa guidata al 5° Stazione.",
+    img: "https://images.unsplash.com/photo-1578271887552-5ac3a72752bc?auto=format&fit=crop&q=80&w=1200",
+    price: 2132,
+    nights: 7,
+    featured: true,
   },
   "etna": {
     id: "etna",
@@ -28,7 +34,9 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Attivo",
     temp: "-5°C",
     desc: "Il vulcano più alto e attivo d'Europa, un gigante siciliano che regala spettacoli eruttivi costanti.",
-    img: "https://images.unsplash.com/photo-1541414779316-956a5084c0d4?auto=format&fit=crop&q=80&w=1200"
+    img: "https://images.unsplash.com/photo-1541414779316-956a5084c0d4?auto=format&fit=crop&q=80&w=1200",
+    price: 890,
+    nights: 4,
   },
   "vesuvio": {
     id: "vesuvio",
@@ -38,7 +46,9 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Dormiente",
     temp: "15°C",
     desc: "Uno dei vulcani più famosi e pericolosi al mondo, domina il Golfo di Napoli con la sua sagoma inconfondibile.",
-    img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&q=80&w=1200"
+    img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&q=80&w=1200",
+    price: 690,
+    nights: 3,
   },
   "bromo": {
     id: "bromo",
@@ -48,7 +58,9 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Attivo",
     temp: "10°C",
     desc: "Situato in un paesaggio lunare all'interno del Parco Nazionale Bromo Tengger Semeru.",
-    img: "https://images.unsplash.com/photo-1627440439611-30d8906354cd?auto=format&fit=crop&q=80&w=1200"
+    img: "https://images.unsplash.com/photo-1627440439611-30d8906354cd?auto=format&fit=crop&q=80&w=1200",
+    price: 1480,
+    nights: 6,
   },
   "katla": {
     id: "katla",
@@ -58,7 +70,9 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Attivo",
     temp: "-8°C",
     desc: "Nascosto sotto il ghiacciaio Mýrdalsjökull, il Katla è uno dei vulcani più potenti e temuti dell'Islanda.",
-    img: "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&q=80&w=1200"
+    img: "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&q=80&w=1200",
+    price: 1850,
+    nights: 7,
   },
   "arenal": {
     id: "arenal",
@@ -68,7 +82,9 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Dormiente",
     temp: "24°C",
     desc: "Un vulcano dal cono perfetto immerso in una foresta pluviale lussureggiante e sorgenti termali.",
-    img: "https://images.unsplash.com/photo-1616422896585-78e217d12f4b?auto=format&fit=crop&q=80&w=1200"
+    img: "https://images.unsplash.com/photo-1616422896585-78e217d12f4b?auto=format&fit=crop&q=80&w=1200",
+    price: 1290,
+    nights: 5,
   },
   "stromboli": {
     id: "stromboli",
@@ -78,7 +94,9 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Eruzioni Medie",
     temp: "18°C",
     desc: "Il faro del Mediterraneo, noto per le sue continue e scenografiche eruzioni esplosive.",
-    img: "https://images.unsplash.com/photo-1541414779316-956a5084c0d4?auto=format&fit=crop&q=80&w=1200"
+    img: "https://images.unsplash.com/photo-1541414779316-956a5084c0d4?auto=format&fit=crop&q=80&w=1200",
+    price: 780,
+    nights: 3,
   },
   "kilimanjaro": {
     id: "kilimanjaro",
@@ -88,7 +106,9 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Quiescente",
     temp: "-10°C",
     desc: "La vetta più alta dell'Africa, un vulcano spento coronato da ghiacciai perenni sopra la savana.",
-    img: "https://images.unsplash.com/photo-1541414779316-956a5084c0d4?auto=format&fit=crop&q=80&w=1200"
+    img: "https://images.unsplash.com/photo-1541414779316-956a5084c0d4?auto=format&fit=crop&q=80&w=1200",
+    price: 2890,
+    nights: 9,
   },
   "eyjafjallajokull": {
     id: "eyjafjallajokull",
@@ -98,7 +118,9 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Attivo",
     temp: "-6°C",
     desc: "Famoso per l'eruzione del 2010 che bloccò i voli europei, è un simbolo della forza della natura islandese.",
-    img: "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&q=80&w=1200"
+    img: "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&q=80&w=1200",
+    price: 1650,
+    nights: 6,
   },
   "mauna-loa": {
     id: "mauna-loa",
@@ -108,7 +130,9 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Attivo",
     temp: "5°C",
     desc: "Il vulcano più grande della Terra per volume, un gigante a scudo che domina l'isola delle Hawaii.",
-    img: "https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&q=80&w=1200"
+    img: "https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&q=80&w=1200",
+    price: 3200,
+    nights: 10,
   },
   "askja": {
     id: "askja",
@@ -118,7 +142,9 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Attivo",
     temp: "-4°C",
     desc: "Una vasta caldera negli altipiani islandesi, nota per il suo lago blu elettrico all'interno del cratere.",
-    img: "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&q=80&w=1200"
+    img: "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&q=80&w=1200",
+    price: 1750,
+    nights: 7,
   },
   "campi-flegrei": {
     id: "campi-flegrei",
@@ -128,7 +154,9 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Attivo",
     temp: "16°C",
     desc: "Un supervulcano costituito da una vasta area vulcanica situata a ovest di Napoli.",
-    img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&q=80&w=1200"
+    img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&q=80&w=1200",
+    price: 720,
+    nights: 3,
   },
   "epomeo": {
     id: "epomeo",
@@ -138,7 +166,9 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Inattivo",
     temp: "18°C",
     desc: "La vetta dell'isola d'Ischia, nata da un sollevamento sottomarino magmatico secoli fa.",
-    img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&q=80&w=1200"
+    img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&q=80&w=1200",
+    price: 580,
+    nights: 2,
   },
   "vulture": {
     id: "vulture",
@@ -148,7 +178,9 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Spento",
     temp: "12°C",
     desc: "Antico vulcano spento della Basilicata, noto per i suoi laghi vulcanici gemelli a Monticchio.",
-    img: "https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&q=80&w=1200"
+    img: "https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&q=80&w=1200",
+    price: 640,
+    nights: 3,
   },
   "amiata": {
     id: "amiata",
@@ -158,7 +190,9 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Dormiente",
     temp: "10°C",
     desc: "Un imponente rilievo vulcanico in Toscana, antico e avvolto da folte foreste di faggi e castagni.",
-    img: "https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&q=80&w=1200"
+    img: "https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&q=80&w=1200",
+    price: 560,
+    nights: 2,
   },
   "lipari": {
     id: "lipari",
@@ -168,7 +202,9 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Attivo",
     temp: "20°C",
     desc: "L'isola più grande delle Eolie, caratterizzata da bianche cave di pomice e colate di ossidiana.",
-    img: "https://images.unsplash.com/photo-1541414779316-956a5084c0d4?auto=format&fit=crop&q=80&w=1200"
+    img: "https://images.unsplash.com/photo-1541414779316-956a5084c0d4?auto=format&fit=crop&q=80&w=1200",
+    price: 820,
+    nights: 4,
   },
   "mauna-kea": {
     id: "mauna-kea",
@@ -178,7 +214,9 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Dormiente",
     temp: "-2°C",
     desc: "Un antico vulcano hawaiano che ospita alcuni dei telescopi più potenti al mondo sulla sua cima.",
-    img: "https://images.unsplash.com/photo-1541414779316-956a5084c0d4?auto=format&fit=crop&q=80&w=1200"
+    img: "https://images.unsplash.com/photo-1541414779316-956a5084c0d4?auto=format&fit=crop&q=80&w=1200",
+    price: 3100,
+    nights: 9,
   },
   "hekla": {
     id: "hekla",
@@ -188,7 +226,9 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Attivo",
     temp: "-5°C",
     desc: "Conosciuta nel Medioevo come la porta dell'Inferno, è uno dei vulcani più attivi dell'Islanda.",
-    img: "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&q=80&w=1200"
+    img: "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&q=80&w=1200",
+    price: 1700,
+    nights: 6,
   },
   "fuego": {
     id: "fuego",
@@ -198,6 +238,8 @@ export const DESTINATIONS: Record<string, Destination> = {
     status: "Eruzioni Costanti",
     temp: "15°C",
     desc: "Famoso per le sue spettacolari e frequenti eruzioni che illuminano il cielo del centro America.",
-    img: "https://images.unsplash.com/photo-1541527712391-7667ff46ca79?auto=format&fit=crop&q=80&w=1200"
-  }
+    img: "https://images.unsplash.com/photo-1541527712391-7667ff46ca79?auto=format&fit=crop&q=80&w=1200",
+    price: 1980,
+    nights: 7,
+  },
 };
