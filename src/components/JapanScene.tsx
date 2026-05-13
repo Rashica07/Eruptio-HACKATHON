@@ -123,70 +123,77 @@ export function JapanScene() {
       return peakY;
     }
 
-    function drawFlag(poleX: number, poleTopY: number, scrollRatio: number, time: number) {
+    function drawFlag(peakX: number, peakY: number, scrollRatio: number, time: number) {
       if (!ctx) return;
-      const flagProgress = Math.min((scrollRatio - 0.02) / 0.32, 1);
+      // Starts at 8% scroll, fully extended at 80% — nice and slow
+      const flagProgress = Math.min(Math.max((scrollRatio - 0.08) / 0.72, 0), 1);
       if (flagProgress <= 0) return;
 
-      const poleH = 62;
+      // Pole starts just above the snow tip (offset upward by 6px so it clears the cap)
+      const poleBase = peakY - 6;
+      // Scale with screen height so it's always visible
+      const poleH    = H * 0.18;                    // 18 % of viewport height
       const poleDrawH = poleH * flagProgress;
 
       ctx.save();
-      ctx.globalAlpha = Math.min(flagProgress * 2.5, 1);
 
-      // Pole
-      ctx.strokeStyle = "#d8d4cc";
-      ctx.lineWidth = 2.5;
-      ctx.lineCap = "round";
+      // --- Glowing pole ---
+      ctx.shadowColor   = "rgba(245,161,24,0.55)";
+      ctx.shadowBlur    = 10;
+      ctx.strokeStyle   = "#f5c84a";               // gold, very visible against snow
+      ctx.lineWidth     = 3.5;
+      ctx.lineCap       = "round";
+      ctx.globalAlpha   = Math.min(flagProgress * 3, 1);
       ctx.beginPath();
-      ctx.moveTo(poleX, poleTopY);
-      ctx.lineTo(poleX, poleTopY - poleDrawH);
+      ctx.moveTo(peakX, poleBase);
+      ctx.lineTo(peakX, poleBase - poleDrawH);
       ctx.stroke();
+      ctx.shadowBlur = 0;
 
-      // Flag (appears when pole is 55% up)
-      if (flagProgress > 0.55) {
-        const flagAlpha = Math.min((flagProgress - 0.55) / 0.4, 1);
-        const actualPoleTop = poleTopY - poleDrawH;
-        const flagW = 36;
-        const flagH = 24;
-        const t = time * 3.8;
+      // --- Flag (appears when pole is 45 % extended) ---
+      if (flagProgress > 0.45) {
+        const flagAlpha   = Math.min((flagProgress - 0.45) / 0.45, 1);
+        const poleTopY    = poleBase - poleDrawH;
+        const flagW       = H * 0.13;              // 13 % of viewport — big & clear
+        const flagH       = H * 0.085;
+        const t           = time * 3.2;
+        const strips      = 18;
 
         ctx.globalAlpha = flagAlpha;
 
-        // Draw flag with strips (Italian flag: green | white | red)
-        const strips = 12;
         for (let i = 0; i < strips; i++) {
-          const x0 = poleX + (i / strips) * flagW;
-          const x1 = poleX + ((i + 1) / strips) * flagW;
+          const x0    = peakX + (i / strips) * flagW;
+          const x1    = peakX + ((i + 1) / strips) * flagW;
           const ratio = i / strips;
-          const w0 = Math.sin(t + ratio * 2.2) * 4 * ratio;
-          const w1 = Math.sin(t + (ratio + 1 / strips) * 2.2) * 4 * (ratio + 1 / strips);
+          // Wave amplitude grows from pole outward
+          const amp   = 7 * ratio;
+          const w0    = Math.sin(t + ratio * 2.5) * amp;
+          const w1    = Math.sin(t + (ratio + 1 / strips) * 2.5) * amp;
 
           ctx.beginPath();
-          ctx.moveTo(x0, actualPoleTop + w0);
-          ctx.lineTo(x1, actualPoleTop + w1);
-          ctx.lineTo(x1, actualPoleTop + flagH + w1);
-          ctx.lineTo(x0, actualPoleTop + flagH + w0);
+          ctx.moveTo(x0, poleTopY + w0);
+          ctx.lineTo(x1, poleTopY + w1);
+          ctx.lineTo(x1, poleTopY + flagH + w1);
+          ctx.lineTo(x0, poleTopY + flagH + w0);
           ctx.closePath();
 
-          // Italian tricolore
-          if (i < strips * 0.34) ctx.fillStyle = "#009246";
-          else if (i < strips * 0.67) ctx.fillStyle = "#f4f4f4";
-          else ctx.fillStyle = "#ce2b37";
+          // Italian tricolore 🇮🇹
+          if      (i < strips * 0.333) ctx.fillStyle = "#009246";
+          else if (i < strips * 0.667) ctx.fillStyle = "#f0f0f0";
+          else                         ctx.fillStyle = "#ce2b37";
           ctx.fill();
         }
 
-        // Flag border
-        const borderW0 = Math.sin(t) * 4 * 0;
-        const borderW1 = Math.sin(t + 2.2) * 4;
+        // Thin dark outline so it reads against sky
+        const edgeW = Math.sin(t) * 7;
+        ctx.strokeStyle  = "rgba(0,0,0,0.25)";
+        ctx.lineWidth    = 1;
         ctx.beginPath();
-        ctx.moveTo(poleX, actualPoleTop + borderW0);
-        ctx.lineTo(poleX + flagW, actualPoleTop + borderW1);
-        ctx.lineTo(poleX + flagW, actualPoleTop + flagH + borderW1);
-        ctx.lineTo(poleX, actualPoleTop + flagH + borderW0);
+        ctx.moveTo(peakX,          poleTopY);
+        ctx.lineTo(peakX + flagW,  poleTopY + edgeW);
+        ctx.lineTo(peakX + flagW,  poleTopY + flagH + edgeW);
+        ctx.lineTo(peakX,          poleTopY + flagH);
         ctx.closePath();
-        ctx.strokeStyle = "rgba(255,255,255,0.2)";
-        ctx.lineWidth = 0.8;
         ctx.stroke();
       }
 
@@ -224,8 +231,8 @@ export function JapanScene() {
       time += 0.011;
 
       // Intro: Fuji rises over first ~160 frames
-      introFrames = Math.min(introFrames + 1, 160);
-      const introEased = easeOutQuart(introFrames / 160);
+      introFrames = Math.min(introFrames + 1, 300); // ~5 s at 60 fps
+      const introEased = easeOutQuart(introFrames / 300);
 
       const par = scrollRatio;
       ctx.clearRect(0, 0, W, H);
