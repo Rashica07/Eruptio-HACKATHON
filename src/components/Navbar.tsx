@@ -8,7 +8,7 @@ import { Link, useLocation } from "react-router-dom";
 const NAV_ITEMS = [
   { label: "Home",        href: "/" },
   { label: "Destinazioni",href: "/destinazioni" },
-  { label: "Servizi",     href: "/#servizi" },
+  { label: "Itinerario",  href: "/itinerario" },
   { label: "Chi Siamo",   href: "/chi-siamo" },
   { label: "FAQ",         href: "/#faq" },
 ];
