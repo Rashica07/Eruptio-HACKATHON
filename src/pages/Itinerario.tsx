@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
-import { Plane, Train, Mountain, Camera, Utensils, Star, Clock, MapPin, Euro } from "lucide-react";
+import { Plane, Train, Mountain, Camera, Utensils, Star, Clock, MapPin, Euro, QrCode } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface Activity {
   time: string;
@@ -289,6 +290,31 @@ export default function Itinerario() {
               Prezzi indicativi per 2 persone · Maggio 2027 · Soggetto a disponibilità
             </p>
           </div>
+        </motion.div>
+
+        {/* CTA to carta di viaggio */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-10 rounded-3xl border border-moss/25 p-8 text-center"
+          style={{ background: "linear-gradient(135deg, hsl(228 28% 10%), hsl(228 28% 13%))" }}
+        >
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-moss/15 border border-moss/30 mb-4">
+            <QrCode size={20} className="text-moss" />
+          </div>
+          <h3 className="font-display font-black text-2xl text-ink uppercase tracking-tight mb-2">
+            Genera la tua Carta di Viaggio
+          </h3>
+          <p className="font-body text-sm text-ink/45 max-w-sm mx-auto mb-6">
+            Scarica la tessera ufficiale del viaggio in PNG o PDF — con QR code integrato per l'itinerario.
+          </p>
+          <Link
+            to="/carta-di-viaggio"
+            className="inline-flex items-center gap-2 bg-moss text-bg font-body font-bold text-[11px] uppercase tracking-widest px-8 py-3.5 rounded-full hover:bg-moss/90 transition-colors shadow-lg shadow-moss/25"
+          >
+            <QrCode size={14} /> GENERA CARTA
+          </Link>
         </motion.div>
       </section>
     </div>

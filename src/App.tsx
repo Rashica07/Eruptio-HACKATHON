@@ -7,6 +7,7 @@ import Booking from "./pages/Booking";
 import DestinationList from "./pages/DestinationList";
 import ChiSiamo from "./pages/ChiSiamo";
 import Itinerario from "./pages/Itinerario";
+import CartaDiViaggio from "./pages/CartaDiViaggio";
 import NotFound from "./pages/NotFound";
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
             <Route path="/prenota" element={<Booking />} />
             <Route path="/chi-siamo" element={<ChiSiamo />} />
             <Route path="/itinerario" element={<Itinerario />} />
+            <Route path="/carta-di-viaggio" element={<CartaDiViaggio />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
