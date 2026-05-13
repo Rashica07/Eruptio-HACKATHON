@@ -132,7 +132,7 @@ export default function Booking() {
 
                 {/* Price estimate */}
                 {dest && (
-                  <div className="bg-moss/8 border border-moss/25 rounded-2xl p-5 flex items-center justify-between">
+                  <div className="bg-moss/10 border border-moss/25 rounded-2xl p-5 flex items-center justify-between">
                     <div>
                       <div className="text-[9px] font-bold uppercase tracking-widest text-ink/30 mb-1">Stima Totale</div>
                       <div className="font-display italic text-3xl text-gold font-bold">
@@ -160,7 +160,7 @@ export default function Booking() {
                 </div>
 
                 <div className="flex flex-col gap-3">
-                  <div className="bg-moss/8 border-2 border-moss p-5 rounded-2xl flex items-center justify-between cursor-pointer">
+                  <div className="bg-moss/10 border-2 border-moss p-5 rounded-2xl flex items-center justify-between cursor-pointer">
                     <div className="flex items-center gap-3">
                       <CreditCard className="text-moss" size={20} />
                       <span className="font-body font-bold text-ink text-sm">Carta di Credito / Debito</span>
@@ -169,7 +169,7 @@ export default function Booking() {
                   </div>
                   <div className="bg-card border border-clay/40 p-5 rounded-2xl flex items-center gap-3 opacity-35 cursor-not-allowed">
                     <div className="size-5 bg-moss/20 rounded-full flex items-center justify-center font-bold text-[9px] text-moss">M</div>
-                    <span className="font-body text-ink/60 text-sm font-medium">Magma Pay · Prossimamente</span>
+                    <span className="font-body text-ink/60 text-sm font-medium">Eruptio Pay · Prossimamente</span>
                   </div>
                 </div>
 

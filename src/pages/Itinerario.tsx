@@ -278,7 +278,7 @@ export default function Itinerario() {
           </div>
           <div className="divide-y divide-clay/20">
             {TOTAL_COST.map((row, i) => (
-              <div key={i} className={`flex items-center justify-between px-6 py-4 ${row.highlight ? "bg-moss/8" : ""}`}>
+              <div key={i} className={`flex items-center justify-between px-6 py-4 ${row.highlight ? "bg-moss/10" : ""}`}>
                 <span className={`font-body text-sm ${row.highlight ? "font-bold text-ink" : "text-ink/55"}`}>{row.label}</span>
                 <span className={`font-display font-bold ${row.highlight ? "text-gold text-2xl" : "text-ink/70 text-base"}`}>{row.value}</span>
               </div>
