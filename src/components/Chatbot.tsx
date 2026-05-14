@@ -1,26 +1,28 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { MessageCircle, X, Send, Flame } from "lucide-react";
-import { GoogleGenAI } from "@google/genai";
+import { MessageCircle, X, Send, Flame, AlertCircle } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
   text: string;
+  error?: boolean;
 }
 
-const SYSTEM_PROMPT = `Sei Ignis, l'assistente AI di Eruptio — agenzia di viaggi specializzata in destinazioni vulcaniche d'élite. 
-Rispondi sempre in italiano, in modo entusiasta, elegante e conciso (max 3-4 frasi). 
-Aiuta gli utenti a scegliere destinazioni vulcaniche, fornisci info su prezzi, itinerari e prenotazioni.
-Destinazioni principali: Monte Fuji (€2.934, 7 notti), Etna (€890, 4 notti), Vesuvio (€690, 3 notti), Monte Bromo (€1.480, 6 notti), Katla Islanda (€1.850, 7 notti), Arenal Costa Rica (€1.290, 5 notti), Kilimanjaro (€2.890, 9 notti), Fuego Guatemala (€1.980, 7 notti).
-Il sito si chiama Eruptio. Per prenotare, indirizza gli utenti alla pagina /prenota.`;
+// Client-side rate limit: min ms between sends
+const CLIENT_COOLDOWN_MS = 1500;
 
 export function Chatbot() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", text: "Ciao! Sono Ignis 🌋 — il tuo assistente vulcanico. Come posso aiutarti a scegliere la prossima destinazione esplosiva?" },
+    {
+      role: "assistant",
+      text: "Ciao! Sono Ignis 🌋 — il tuo assistente vulcanico d'élite. Come posso aiutarti a scegliere la prossima destinazione esplosiva?",
+    },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [rateLimited, setRateLimited] = useState(false);
+  const lastSentAt = useRef<number>(0);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -31,35 +33,65 @@ export function Chatbot() {
     }
   }, [open, messages]);
 
-  async function sendMessage() {
+  const sendMessage = useCallback(async () => {
     const text = input.trim();
-    if (!text || loading) return;
+    if (!text || loading || rateLimited) return;
+
+    // Client-side cooldown
+    const now = Date.now();
+    if (now - lastSentAt.current < CLIENT_COOLDOWN_MS) {
+      setRateLimited(true);
+      setTimeout(() => setRateLimited(false), CLIENT_COOLDOWN_MS);
+      return;
+    }
+    lastSentAt.current = now;
 
     const userMsg: Message = { role: "user", text };
-    setMessages(prev => [...prev, userMsg]);
+    const nextMessages = [...messages, userMsg];
+    setMessages(nextMessages);
     setInput("");
     setLoading(true);
 
     try {
-      const apiKey = (process.env.GEMINI_API_KEY as string) || "";
-      const ai = new GoogleGenAI({ apiKey });
-
-      const history = [...messages, userMsg];
-      const prompt = `${SYSTEM_PROMPT}\n\nConversazione:\n${history.map(m => `${m.role === "user" ? "Utente" : "Ignis"}: ${m.text}`).join("\n")}\nIgnis:`;
-
-      const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
-        contents: prompt,
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: nextMessages.map(m => ({ role: m.role, text: m.text })),
+        }),
       });
 
-      const reply = response.text?.trim() || "Mi dispiace, non ho capito. Puoi ripetere?";
-      setMessages(prev => [...prev, { role: "assistant", text: reply }]);
+      const data = await res.json();
+
+      if (!res.ok) {
+        // 429 rate limit from server
+        if (res.status === 429) {
+          setMessages(prev => [...prev, {
+            role: "assistant",
+            text: data.error || "Stai scrivendo troppo velocemente. Attendi un momento.",
+            error: true,
+          }]);
+        } else {
+          setMessages(prev => [...prev, {
+            role: "assistant",
+            text: data.error || "Qualcosa è andato storto. Riprova tra poco.",
+            error: true,
+          }]);
+        }
+        return;
+      }
+
+      setMessages(prev => [...prev, { role: "assistant", text: data.reply }]);
     } catch {
-      setMessages(prev => [...prev, { role: "assistant", text: "Si è verificato un errore. Riprova tra poco!" }]);
+      setMessages(prev => [...prev, {
+        role: "assistant",
+        text: "Connessione interrotta. Controlla la tua rete e riprova.",
+        error: true,
+      }]);
     } finally {
       setLoading(false);
     }
-  }
+  }, [input, loading, rateLimited, messages]);
 
   function handleKey(e: React.KeyboardEvent) {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -67,6 +99,8 @@ export function Chatbot() {
       sendMessage();
     }
   }
+
+  const canSend = !!input.trim() && !loading && !rateLimited;
 
   return (
     <>
@@ -76,7 +110,7 @@ export function Chatbot() {
         className="fixed bottom-6 right-6 z-[200] w-14 h-14 rounded-full bg-moss shadow-2xl shadow-moss/40 flex items-center justify-center text-bg hover:bg-moss/90 transition-colors"
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
-        aria-label="Apri chat"
+        aria-label="Apri chat Ignis"
       >
         <AnimatePresence mode="wait">
           {open ? (
@@ -112,8 +146,10 @@ export function Chatbot() {
                 <div className="text-[9px] font-bold uppercase tracking-widest text-ink/35">Assistente Eruptio · AI</div>
               </div>
               <div className="ml-auto flex items-center gap-1.5">
-                <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-[9px] text-ink/35 font-bold uppercase tracking-wider">Online</span>
+                <div className={`w-2 h-2 rounded-full ${loading ? "bg-gold animate-pulse" : "bg-emerald-400"}`} />
+                <span className="text-[9px] text-ink/35 font-bold uppercase tracking-wider">
+                  {loading ? "Risposta..." : "Online"}
+                </span>
               </div>
             </div>
 
@@ -127,13 +163,27 @@ export function Chatbot() {
                   transition={{ duration: 0.2 }}
                   className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                 >
+                  {msg.role === "assistant" && msg.error && (
+                    <div className="flex-none mt-1 mr-2">
+                      <AlertCircle size={13} className="text-gold/70" />
+                    </div>
+                  )}
                   <div
                     className={`max-w-[82%] px-4 py-3 rounded-2xl text-sm leading-relaxed font-body ${
                       msg.role === "user"
                         ? "bg-moss text-bg rounded-br-sm"
-                        : "text-ink/85 rounded-bl-sm"
+                        : msg.error
+                          ? "text-gold/80 rounded-bl-sm"
+                          : "text-ink/85 rounded-bl-sm"
                     }`}
-                    style={msg.role === "assistant" ? { background: "hsl(228 28% 14%)", border: "1px solid hsl(228 28% 20%)" } : {}}
+                    style={
+                      msg.role === "assistant"
+                        ? {
+                            background: msg.error ? "hsl(38 40% 12%)" : "hsl(228 28% 14%)",
+                            border: `1px solid ${msg.error ? "hsl(38 60% 25%)" : "hsl(228 28% 20%)"}`,
+                          }
+                        : {}
+                    }
                   >
                     {msg.text}
                   </div>
@@ -160,24 +210,26 @@ export function Chatbot() {
             </div>
 
             {/* Input */}
-            <div className="px-4 py-3 border-t flex gap-2" style={{ borderColor: "hsl(228 28% 16%)", background: "hsl(228 47% 7%)" }}>
+            <div className="px-4 py-3 border-t flex gap-2 items-center" style={{ borderColor: "hsl(228 28% 16%)", background: "hsl(228 47% 7%)" }}>
               <input
                 ref={inputRef}
                 type="text"
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={handleKey}
-                placeholder="Scrivi un messaggio..."
-                disabled={loading}
-                className="flex-1 bg-transparent text-ink text-sm font-body placeholder:text-ink/25 focus:outline-none disabled:opacity-50"
+                placeholder={rateLimited ? "Attendi..." : "Scrivi un messaggio..."}
+                disabled={loading || rateLimited}
+                maxLength={500}
+                className="flex-1 bg-transparent text-ink text-sm font-body placeholder:text-ink/25 focus:outline-none disabled:opacity-40 transition-opacity"
               />
-              <button
+              <motion.button
                 onClick={sendMessage}
-                disabled={!input.trim() || loading}
-                className="w-9 h-9 rounded-full bg-moss flex items-center justify-center text-bg hover:bg-moss/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
+                disabled={!canSend}
+                whileTap={canSend ? { scale: 0.9 } : {}}
+                className="w-9 h-9 rounded-full bg-moss flex items-center justify-center text-bg hover:bg-moss/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0"
               >
                 <Send size={14} />
-              </button>
+              </motion.button>
             </div>
           </motion.div>
         )}
