@@ -141,7 +141,7 @@ async function startServer() {
       const ai = new GoogleGenAI({ apiKey });
 
       const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
+        model: "gemini-2.0-flash-lite",
         contents: fullPrompt,
         config: {
           maxOutputTokens: 256,
@@ -154,9 +154,13 @@ async function startServer() {
       if (!reply) throw new Error("Empty response from model");
 
       res.json({ reply });
-    } catch (err) {
-      console.error("[chat] Gemini error:", err);
-      res.status(502).json({ error: "Risposta AI non disponibile. Riprova tra qualche secondo." });
+    } catch (err: any) {
+      console.error("[chat] Gemini error:", err?.message ?? err);
+      const status = err?.status ?? err?.response?.status;
+      if (status === 429) {
+        return res.status(429).json({ error: "Ignis sta ricevendo troppe richieste. Aspetta qualche secondo e riprova." });
+      }
+      res.status(502).json({ error: "Ignis non è disponibile al momento. Riprova tra poco." });
     }
   });
 
