@@ -1,0 +1,44 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "xeTMj_k9QXPzPwWSpL0wX"
+uri = "file://attached_assets/stock_images/etna.jpg"
+type = "image"
+title = "Mount Etna volcano Sicily erupting lava at night dramatic"
+
+[[outputs]]
+id = "AFibuTvbvs2JBk8lX8jEp"
+uri = "file://attached_assets/stock_images/bromo.jpg"
+type = "image"
+title = "Mount Bromo volcano Indonesia sunrise volcanic landscape"
+
+[[outputs]]
+id = "bM2UNiAxbTSzsD4mupfrk"
+uri = "file://attached_assets/stock_images/fuego.jpg"
+type = "image"
+title = "Fuego volcano Guatemala eruption smoke ash lava"
+
+[[outputs]]
+id = "gvNwj34fNLNOuUFNuugU1"
+uri = "file://attached_assets/stock_images/fuji.jpg"
+type = "image"
+title = "Mount Fuji Japan volcano cherry blossom sunset"
+
+[[outputs]]
+id = "M8XePPZ2ent2ux54aua1x"
+uri = "file://attached_assets/stock_images/vesuvio.jpg"
+type = "image"
+title = "Vesuvius volcano Naples Italy dramatic sky"
+
+[[outputs]]
+id = "0zsXVvUVaChNlZsO8sLNs"
+uri = "file://attached_assets/stock_images/katla.jpg"
+type = "image"
+title = "Iceland volcanic landscape glacier volcano katla"
+
+[[outputs]]
+id = "2zjzLWvIELX87H6iufwJG"
+uri = "file://attached_assets/stock_images/stromboli.jpg"
+type = "image"
+title = "Stromboli island volcano Italy mediterranean eruption"

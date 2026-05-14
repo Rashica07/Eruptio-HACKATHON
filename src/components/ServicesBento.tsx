@@ -9,7 +9,7 @@ const SERVICES = [
     body: "La destinazione top del 2026. Da Lecco a Tokyo: 7 notti, 8 giorni.",
     price: "€ 2.934",
     tag: "Giappone",
-    img: "https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?auto=format&fit=crop&q=80&w=900",
+    img: "/images/destinations/fuji.jpg",
     href: "/destinazioni/fuji",
     featured: true,
   },
@@ -18,7 +18,7 @@ const SERVICES = [
     body: "Il vulcano più attivo d'Europa. Osserva le colate laviche siciliane.",
     price: "€ 890",
     tag: "Italia",
-    img: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&q=80&w=900",
+    img: "/images/destinations/etna.jpg",
     href: "/destinazioni/etna",
   },
   {
@@ -26,7 +26,7 @@ const SERVICES = [
     body: "Vivi l'alba sopra un mare di sabbia vulcanica in Indonesia.",
     price: "€ 1.480",
     tag: "Indonesia",
-    img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80&w=900",
+    img: "/images/destinations/bromo.jpg",
     href: "/destinazioni/bromo",
   },
   {
@@ -34,7 +34,7 @@ const SERVICES = [
     body: "Ghiaccio e fuoco: il vulcano nascosto sotto il ghiacciaio più spettacolare.",
     price: "€ 1.850",
     tag: "Islanda",
-    img: "https://images.unsplash.com/photo-1539635278303-d4002c07eae3?auto=format&fit=crop&q=80&w=900",
+    img: "/images/destinations/katla.jpg",
     href: "/destinazioni/katla",
     wide: true,
   },
@@ -43,7 +43,7 @@ const SERVICES = [
     body: "Il fuoco perenne del Guatemala. Pura energia geologica.",
     price: "€ 1.980",
     tag: "Guatemala",
-    img: "https://images.unsplash.com/photo-1508193638397-1c4234db14d8?auto=format&fit=crop&q=80&w=900",
+    img: "/images/destinations/fuego.jpg",
     href: "/destinazioni/fuego",
   },
   {
@@ -51,7 +51,7 @@ const SERVICES = [
     body: "Il gigante silente sopra Napoli. La storia che respira.",
     price: "€ 690",
     tag: "Italia",
-    img: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&q=80&w=900",
+    img: "/images/destinations/vesuvio.jpg",
     href: "/destinazioni/vesuvio",
   },
   {

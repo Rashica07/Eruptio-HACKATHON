@@ -10,6 +10,7 @@ import ChiSiamo from "./pages/ChiSiamo";
 import Itinerario from "./pages/Itinerario";
 import CartaDiViaggio from "./pages/CartaDiViaggio";
 import NotFound from "./pages/NotFound";
+import SecretCiao from "./pages/SecretCiao";
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
             <Route path="/chi-siamo" element={<ChiSiamo />} />
             <Route path="/itinerario" element={<Itinerario />} />
             <Route path="/carta-di-viaggio" element={<CartaDiViaggio />} />
+            <Route path="/ciao" element={<SecretCiao />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
