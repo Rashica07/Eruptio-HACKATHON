@@ -70,9 +70,9 @@ export function Hero() {
           transition={{ delay: 1.2, duration: 0.5 }}
           className="mt-6 flex items-center gap-3 bg-ink/5 backdrop-blur-sm border border-ink/10 rounded-full px-6 py-3"
         >
-          <span className="font-display italic text-2xl font-bold text-gold">€ 2.132</span>
+          <span className="font-display italic text-2xl font-bold text-gold">€ 2.934</span>
           <div className="w-px h-5 bg-ink/20" />
-          <span className="font-body text-[10px] uppercase tracking-widest text-ink/50 font-semibold">2 Persone · 7 Notti · Tokyo</span>
+          <span className="font-body text-[10px] uppercase tracking-widest text-ink/50 font-semibold">1 Persona · 7 Notti · Tokyo</span>
         </motion.div>
 
         {/* CTAs */}

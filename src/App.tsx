@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
 import { FireCursor } from "./components/FireCursor";
+import { Chatbot } from "./components/Chatbot";
 import Home from "./pages/Home";
 import DestinationDetail from "./pages/DestinationDetail";
 import Booking from "./pages/Booking";
@@ -16,6 +17,7 @@ export default function App() {
       <div className="bg-background text-foreground min-h-screen selection:bg-primary/20 selection:text-ink">
         <FireCursor />
         <Navbar />
+        <Chatbot />
         <main>
           <Routes>
             <Route path="/" element={<Home />} />

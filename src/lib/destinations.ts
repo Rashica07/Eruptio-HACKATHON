@@ -30,7 +30,7 @@ export const DESTINATIONS: Record<string, Destination> = {
       u("photo-1540959733332-eab4deabeeaf", 800),
       u("photo-1542051841857-5f90071e7989", 800),
     ],
-    price: 2132, nights: 7, lat: 35.36, lng: 138.73, featured: true,
+    price: 2934, nights: 7, lat: 35.36, lng: 138.73, featured: true,
   },
   "etna": {
     id: "etna", name: "Etna", country: "Italia",
