@@ -18,7 +18,7 @@ const SERVICES = [
     body: "Il vulcano più attivo d'Europa. Osserva le colate laviche siciliane.",
     price: "€ 890",
     tag: "Italia",
-    img: "https://images.unsplash.com/photo-1574068468566-42ee5cd28d8a?auto=format&fit=crop&q=80&w=900",
+    img: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&q=80&w=900",
     href: "/destinazioni/etna",
   },
   {
@@ -26,7 +26,7 @@ const SERVICES = [
     body: "Vivi l'alba sopra un mare di sabbia vulcanica in Indonesia.",
     price: "€ 1.480",
     tag: "Indonesia",
-    img: "https://images.unsplash.com/photo-1627440439611-30d8906354cd?auto=format&fit=crop&q=80&w=900",
+    img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80&w=900",
     href: "/destinazioni/bromo",
   },
   {
@@ -43,7 +43,7 @@ const SERVICES = [
     body: "Il fuoco perenne del Guatemala. Pura energia geologica.",
     price: "€ 1.980",
     tag: "Guatemala",
-    img: "https://images.unsplash.com/photo-1541527712391-7667ff46ca79?auto=format&fit=crop&q=80&w=900",
+    img: "https://images.unsplash.com/photo-1508193638397-1c4234db14d8?auto=format&fit=crop&q=80&w=900",
     href: "/destinazioni/fuego",
   },
   {
