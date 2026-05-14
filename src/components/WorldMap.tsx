@@ -1,22 +1,34 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { useRef } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 import { Link } from "react-router-dom";
 import { MapPin, ArrowUpRight } from "lucide-react";
 import { DESTINATIONS } from "@/lib/destinations";
 
-// Equirectangular projection: lat/lng → % position on a flat world map
-function toXY(lat: number, lng: number) {
-  const x = ((lng + 180) / 360) * 100;
-  const y = ((90 - lat)  / 180) * 100;
-  return { x, y };
+const PINS = Object.values(DESTINATIONS).filter(d => d.lat != null && d.lng != null);
+
+function makeIcon(featured: boolean) {
+  return L.divIcon({
+    className: "",
+    html: `<div style="
+      width: ${featured ? "14px" : "11px"};
+      height: ${featured ? "14px" : "11px"};
+      background: ${featured ? "hsl(38 90% 54%)" : "hsl(6 78% 57%)"};
+      border: 2px solid ${featured ? "hsl(38 90% 70% / 0.6)" : "hsl(6 78% 75% / 0.5)"};
+      border-radius: 50%;
+      box-shadow: 0 0 ${featured ? "10px" : "7px"} ${featured ? "hsl(38 90% 54% / 0.7)" : "hsl(6 78% 57% / 0.6)"};
+      cursor: pointer;
+      transition: transform 0.15s;
+    "></div>`,
+    iconSize: [featured ? 14 : 11, featured ? 14 : 11],
+    iconAnchor: [featured ? 7 : 5.5, featured ? 7 : 5.5],
+    popupAnchor: [0, -10],
+  });
 }
 
-// Subset of destinations with map coordinates
-const PINS = Object.values(DESTINATIONS).filter(d => d.lat != null);
-
 export function WorldMap() {
-  const [hovered, setHovered] = useState<string | null>(null);
-  const active = hovered ? DESTINATIONS[hovered] : null;
+  const mapRef = useRef(null);
 
   return (
     <section className="py-24 bg-background border-t border-clay/30 overflow-hidden">
@@ -29,111 +41,73 @@ export function WorldMap() {
             </h2>
           </div>
           <p className="font-body text-ink/35 text-sm max-w-xs leading-relaxed">
-            Passa il cursore su ogni punto rosso per scoprire il vulcano. Clicca per vedere la scheda completa.
+            Clicca su ogni punto per scoprire il vulcano. Zoom e navigazione liberi.
           </p>
         </div>
 
-        {/* Map container */}
-        <div className="relative rounded-3xl overflow-hidden border border-clay/40 bg-card" style={{ paddingBottom: "50%" }}>
-          {/* World map image — dark-tinted physical map */}
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Whole_world_-_land_and_oceans.jpg/1920px-Whole_world_-_land_and_oceans.jpg"
-            alt="World map"
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{ filter: "brightness(0.18) saturate(0.4)", mixBlendMode: "screen" }}
-          />
+        <div className="relative rounded-3xl overflow-hidden border border-clay/40" style={{ height: 480 }}>
+          <MapContainer
+            ref={mapRef}
+            center={[20, 10]}
+            zoom={2}
+            minZoom={1}
+            maxZoom={10}
+            style={{ height: "100%", width: "100%", background: "hsl(228 47% 5%)" }}
+            scrollWheelZoom={true}
+            worldCopyJump={false}
+            zoomControl={true}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+              url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+              subdomains="abcd"
+              maxZoom={19}
+            />
 
-          {/* Tinted ocean overlay */}
-          <div className="absolute inset-0" style={{ background: "hsl(228 47% 5% / 0.6)" }} />
-
-          {/* Grid lines */}
-          <svg className="absolute inset-0 w-full h-full opacity-[0.06]" xmlns="http://www.w3.org/2000/svg">
-            {[0,20,40,60,80].map(y => (
-              <line key={y} x1="0" y1={`${y}%`} x2="100%" y2={`${y}%`} stroke="white" strokeWidth="0.5"/>
-            ))}
-            {[0,20,40,60,80,100].map(x => (
-              <line key={x} x1={`${x}%`} y1="0" x2={`${x}%`} y2="100%" stroke="white" strokeWidth="0.5"/>
-            ))}
-          </svg>
-
-          {/* Destination pins */}
-          {PINS.map(dest => {
-            const { x, y } = toXY(dest.lat, dest.lng);
-            const isActive = hovered === dest.id;
-            return (
-              <Link
+            {PINS.map(dest => (
+              <Marker
                 key={dest.id}
-                to={`/destinazioni/${dest.id}`}
-                className="absolute group"
-                style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}
-                onMouseEnter={() => setHovered(dest.id)}
-                onMouseLeave={() => setHovered(null)}
+                position={[dest.lat, dest.lng]}
+                icon={makeIcon(!!dest.featured)}
               >
-                {/* Pulse ring */}
-                {isActive && (
-                  <motion.div
-                    initial={{ scale: 0.5, opacity: 0.8 }}
-                    animate={{ scale: 2.2, opacity: 0 }}
-                    transition={{ duration: 1, repeat: Infinity }}
-                    className="absolute inset-0 rounded-full bg-moss"
-                    style={{ width: 10, height: 10, top: -1, left: -1 }}
-                  />
-                )}
-                {/* Pin dot */}
-                <div className={`relative w-2.5 h-2.5 rounded-full border transition-all duration-200 ${
-                  dest.featured
-                    ? "bg-gold border-gold/50 scale-125"
-                    : isActive
-                    ? "bg-moss border-moss/60 scale-150"
-                    : "bg-moss/80 border-moss/40 hover:scale-150"
-                }`} />
-              </Link>
-            );
-          })}
-
-          {/* Tooltip */}
-          <AnimatePresence>
-            {active && (() => {
-              const { x, y } = toXY(active.lat, active.lng);
-              const flipX = x > 70;
-              const flipY = y > 65;
-              return (
-                <motion.div
-                  key={active.id}
-                  initial={{ opacity: 0, scale: 0.9, y: 8 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.18 }}
-                  className="absolute z-30 pointer-events-none"
-                  style={{
-                    left: `${x}%`,
-                    top: `${y}%`,
-                    transform: `translate(${flipX ? "calc(-100% - 14px)" : "14px"}, ${flipY ? "calc(-100% - 6px)" : "6px"})`,
-                  }}
+                <Popup
+                  closeButton={false}
+                  className="eruptio-popup"
+                  offset={[0, -4]}
                 >
-                  <div className="bg-card/95 backdrop-blur-xl border border-clay rounded-2xl overflow-hidden shadow-2xl shadow-black/60 w-48">
-                    <img src={active.img + "?auto=format&fit=crop&q=70&w=300"} alt={active.name} className="w-full h-24 object-cover brightness-90" />
-                    <div className="p-3">
-                      <div className="flex items-center gap-1 text-ink/35 mb-1">
-                        <MapPin size={9} />
-                        <span className="text-[8px] font-bold uppercase tracking-widest">{active.country}</span>
+                  <Link
+                    to={`/destinazioni/${dest.id}`}
+                    style={{ textDecoration: "none", display: "block", width: 180 }}
+                  >
+                    <img
+                      src={dest.img + "?auto=format&fit=crop&q=70&w=360"}
+                      alt={dest.name}
+                      style={{ width: "100%", height: 90, objectFit: "cover", display: "block" }}
+                    />
+                    <div style={{ padding: "10px 12px 12px" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 4 }}>
+                        <MapPin size={9} color="hsl(35 25% 93% / 0.35)" />
+                        <span style={{ fontSize: 8, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.18em", color: "hsl(35 25% 93% / 0.35)" }}>
+                          {dest.country}
+                        </span>
                       </div>
-                      <div className="font-display italic text-lg text-ink leading-tight">{active.name}</div>
-                      <div className="font-display italic text-base text-gold font-bold mt-1">
-                        € {active.price.toLocaleString("it-IT")}
+                      <div style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontSize: 16, color: "hsl(35 25% 93%)", lineHeight: 1.2, marginBottom: 4 }}>
+                        {dest.name}
                       </div>
-                      <div className="flex items-center gap-1 text-moss text-[9px] font-bold uppercase tracking-widest mt-2">
+                      <div style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontSize: 15, fontWeight: 700, color: "hsl(38 90% 54%)", marginBottom: 8 }}>
+                        € {dest.price.toLocaleString("it-IT")}
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 4, color: "hsl(6 78% 57%)", fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em" }}>
                         Scopri <ArrowUpRight size={10} />
                       </div>
                     </div>
-                  </div>
-                </motion.div>
-              );
-            })()}
-          </AnimatePresence>
+                  </Link>
+                </Popup>
+              </Marker>
+            ))}
+          </MapContainer>
         </div>
 
-        {/* Legend */}
         <div className="flex items-center gap-6 mt-5 justify-end">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-gold border border-gold/50" />
@@ -145,6 +119,43 @@ export function WorldMap() {
           </div>
         </div>
       </div>
+
+      <style>{`
+        .eruptio-popup .leaflet-popup-content-wrapper {
+          background: hsl(228 38% 9%);
+          border: 1px solid hsl(228 28% 18%);
+          border-radius: 16px;
+          padding: 0;
+          overflow: hidden;
+          box-shadow: 0 20px 60px hsl(0 0% 0% / 0.7);
+        }
+        .eruptio-popup .leaflet-popup-content {
+          margin: 0;
+          width: 180px !important;
+        }
+        .eruptio-popup .leaflet-popup-tip-container {
+          display: none;
+        }
+        .leaflet-container {
+          font-family: inherit;
+        }
+        .leaflet-control-zoom a {
+          background: hsl(228 38% 9%) !important;
+          color: hsl(35 25% 93%) !important;
+          border-color: hsl(228 28% 18%) !important;
+        }
+        .leaflet-control-zoom a:hover {
+          background: hsl(228 28% 14%) !important;
+        }
+        .leaflet-control-attribution {
+          background: hsl(228 47% 5% / 0.8) !important;
+          color: hsl(35 25% 93% / 0.3) !important;
+          font-size: 9px !important;
+        }
+        .leaflet-control-attribution a {
+          color: hsl(35 25% 93% / 0.5) !important;
+        }
+      `}</style>
     </section>
   );
 }
